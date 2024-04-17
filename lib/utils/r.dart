@@ -9,3 +9,7 @@ class R {
   static Color get secondaryColor => _secondaryColor;
   static Color get tertiaryColor => _tertiaryColor;
 }
+
+const String fontFamily = 'Cario';
+
+const List<String> classes = ['Economy', 'Business'];

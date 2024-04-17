@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SharedPrefs.prefs == await SharedPreferences.getInstance();
+  SharedPrefs.prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -59,9 +59,13 @@ class MyApp extends StatelessWidget {
 
 ThemeData myLightThemeData = ThemeData(
   fontFamily: 'Cario',
+  
   useMaterial3: true,
   // primaryColor: R.primaryColor,
   primaryColorLight: R.primaryColor,
+  primaryColor: const Color(0xff415a5c),
+  indicatorColor: const Color(0xffffcfa1),
+  canvasColor: const Color(0xff9dafb1),
   // colorSchemeSeed: R.primaryColor,
   appBarTheme: AppBarTheme(
       color: R.tertiaryColor,

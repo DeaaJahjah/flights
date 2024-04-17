@@ -9,25 +9,18 @@ class CustomFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        // style: FilledButton.styleFrom(
-        //   backgroundColor: R.secondaryColor,
-        //   minimumSize: const Size(
-        //     double.infinity,
-        //     50,
-        //   ),
-        // shape: RoundedRectangleBorder(
-
+    return FilledButton(
+      onPressed: onPressed,
+      style: FilledButton.styleFrom(
+        backgroundColor: R.secondaryColor,
+        // minimumSize: const Size(
+        //   double.infinity,
+        //   50,
         // ),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0), color: R.secondaryColor),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(color: R.primaryColor, fontWeight: FontWeight.bold),
-        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: R.primaryColor, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flights/core/enums/enums.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
+import 'package:flights/features/auth/services/authentecation_service.dart';
 import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flights/features/flights/screens/create_flightt_screen.dart';
 import 'package:flights/features/flights/screens/flight_card.dart';
@@ -30,7 +31,13 @@ class _CompanyFlightScreenState extends State<CompanyFlightScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('الرحلات')),
+      appBar: AppBar(title: const Text('الرحلات'), actions: [
+        IconButton(
+            onPressed: () {
+              FlutterFireAuthServices().signOut(context);
+            },
+            icon: const Icon(Icons.exit_to_app_outlined))
+      ]),
       body: Consumer<FlightsProvider>(
         builder: (context, provider, child) {
           return Stack(

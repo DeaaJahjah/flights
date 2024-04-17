@@ -7,6 +7,7 @@ import 'package:flights/core/enums/enums.dart';
 import 'package:flights/core/utils/validators.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
 import 'package:flights/core/widgets/custom_snackbar.dart';
+import 'package:flights/core/widgets/custom_text_field.dart';
 import 'package:flights/core/widgets/filled_button.dart';
 import 'package:flights/features/auth/models/company.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
@@ -14,7 +15,6 @@ import 'package:flights/features/auth/services/file_services.dart';
 import 'package:flights/features/auth/services/user_db_services.dart';
 import 'package:flights/features/flights/screens/company_flights_screen.dart';
 import 'package:flights/utils/r.dart';
-import 'package:flights/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class CreateCompanyAccountScreen extends StatefulWidget {

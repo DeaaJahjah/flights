@@ -4,12 +4,13 @@ import 'package:flights/core/utils/shred_prefs.dart';
 import 'package:flights/core/utils/validators.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
 import 'package:flights/core/widgets/custom_snackbar.dart';
+import 'package:flights/core/widgets/custom_text_field.dart';
 import 'package:flights/core/widgets/filled_button.dart';
 import 'package:flights/features/flights/models/flight.dart';
 import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flights/utils/r.dart';
-import 'package:flights/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -100,6 +101,7 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
                     secondaryColor: R.tertiaryColor,
                     controller: _lunchDateController,
                     keyboardType: TextInputType.text,
+                    readOnly: true,
                     validator: emptyValidator,
                     onTap: () async {
                       lunchDate = await showRoundedDatePicker(
@@ -113,25 +115,50 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
                           ('${lunchDate!.year}-${lunchDate!.month}-${lunchDate!.day}').toString();
                     },
                   ),
-                  CustomTextField(
-                    labelText: 'تاريخ الوصول',
-                    prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
-                    mainColor: R.secondaryColor,
-                    secondaryColor: R.tertiaryColor,
-                    controller: _arriveDateController,
-                    keyboardType: TextInputType.text,
-                    validator: emptyValidator,
-                    onTap: () async {
-                      arriveDate = await showRoundedDatePicker(
-                        context: context,
-                        lastDate: DateTime(2026),
-                        initialDate: DateTime.now(),
-                        theme: ThemeData(primarySwatch: Colors.amber),
-                        // firstDate: DateTime(2000),
-                      );
-                      _arriveDateController.text =
-                          ('${arriveDate!.year}-${arriveDate!.month}-${arriveDate!.day}').toString();
-                    },
+                  Row(
+                    children: [
+                      CustomTextField(
+                        labelText: 'تاريخ الوصول',
+                        prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
+                        mainColor: R.secondaryColor,
+                        secondaryColor: R.tertiaryColor,
+                        controller: _arriveDateController,
+                        keyboardType: TextInputType.text,
+                        validator: emptyValidator,
+                        readOnly: true,
+                        onTap: () async {
+                          arriveDate = await showRoundedDatePicker(
+                            context: context,
+                            lastDate: DateTime(2026),
+                            initialDate: DateTime.now(),
+                            theme: ThemeData(primarySwatch: Colors.amber),
+                            // firstDate: DateTime(2000),
+                          );
+                          _arriveDateController.text =
+                              ('${arriveDate!.year}-${arriveDate!.month}-${arriveDate!.day}').toString();
+                        },
+                      ),
+                      CustomTextField(
+                        labelText: 'وقت الوصول',
+                        prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
+                        mainColor: R.secondaryColor,
+                        secondaryColor: R.tertiaryColor,
+                        controller: _arriveDateController,
+                        keyboardType: TextInputType.text,
+                        validator: emptyValidator,
+                        readOnly: true,
+                        onTap: () async {
+                          // DatePicker.showDatePicker(context,
+                          //     showTitleActions: true,
+                          //     minTime: DateTime(2018, 3, 5),
+                          //     maxTime: DateTime(2025, 12, 30), onChanged: (date) {
+                          //   print('change $date');
+                          // }, onConfirm: (date) {
+                          //   print('confirm $date');
+                          // }, currentTime: DateTime.now(), locale: LocaleType.zh);
+                        },
+                      ),
+                    ],
                   ),
                   CustomTextField(
                     labelText: 'مدة الرحلة',

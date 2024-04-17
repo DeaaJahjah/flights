@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flights/core/extensions/firebase.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
 import 'package:flights/features/auth/screens/login_page.dart';
+import 'package:flights/features/auth/services/user_db_services.dart';
+import 'package:flights/features/client/screens/client_home_screen.dart';
 import 'package:flights/features/flights/screens/company_flights_screen.dart';
-import 'package:flights/main_pages/home_page.dart';
 import 'package:flights/utils/r.dart';
 import 'package:flutter/material.dart';
 import 'package:show_up_animation/show_up_animation.dart';
@@ -21,8 +22,9 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () async {
       if (context.logedInUser != null) {
+        UserDbServices().getUserInfo();
         if (context.userType == 'client') {
-          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+          Navigator.of(context).pushReplacementNamed(ClientHomeScreen.routeName);
           print('clienttttttttt');
         } else {
           print('companyyyyyyyyyyy');

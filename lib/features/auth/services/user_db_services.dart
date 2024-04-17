@@ -6,7 +6,7 @@ import 'package:flights/features/auth/models/client.dart';
 import 'package:flights/features/auth/models/company.dart';
 import 'package:flights/features/auth/models/user_model.dart';
 import 'package:flights/features/auth/providers/auth_state_provider.dart';
-import 'package:flights/main_pages/home_page.dart';
+import 'package:flights/features/client/screens/client_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class UserDbServices {
 
       Provider.of<AuthSataProvider>(context, listen: false).changeAuthState(newState: AuthState.notSet);
 
-      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
     } on FirebaseException catch (e) {
       Provider.of<AuthSataProvider>(context, listen: false).changeAuthState(newState: AuthState.notSet);
 
@@ -39,7 +39,7 @@ class UserDbServices {
 
       Provider.of<AuthSataProvider>(context, listen: false).changeAuthState(newState: AuthState.notSet);
 
-      Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
     } on FirebaseException catch (e) {
       Provider.of<AuthSataProvider>(context, listen: false).changeAuthState(newState: AuthState.notSet);
 
