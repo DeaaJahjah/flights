@@ -6,6 +6,7 @@ import 'package:flights/core/widgets/custom_text_field.dart';
 import 'package:flights/features/auth/providers/auth_state_provider.dart';
 import 'package:flights/features/auth/screens/selecte_account_type_screen.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
+import 'package:flights/features/auth/services/user_db_services.dart';
 import 'package:flights/features/client/screens/client_home_screen.dart';
 import 'package:flights/features/flights/screens/company_flights_screen.dart';
 import 'package:flights/utils/r.dart';
@@ -112,32 +113,12 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (result != null) {
                   // _fadeInOutWidgetController.hide();
+                  await UserDbServices().getUserInfo();
+
                   if (context.userType == 'client') {
-                    Future.delayed(
-                      const Duration(milliseconds: 500),
-                      () => Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
-                          pageBuilder: (context, animation, secondaryAnimation) => const ClientHomeScreen(
-                              // routeTransitionValue: animation,
-                              ),
-                        ),
-                      ),
-                    );
+                    Navigator.of(context).pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
                   } else {
-                    Future.delayed(
-                      const Duration(milliseconds: 500),
-                      () => Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
-                          pageBuilder: (context, animation, secondaryAnimation) => const CompanyFlightScreen(
-                              // routeTransitionValue: animation,
-                              ),
-                        ),
-                      ),
-                    );
+                    Navigator.of(context).pushNamedAndRemoveUntil(CompanyFlightScreen.routeName, (route) => false);
                   }
                 }
               },
@@ -153,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget get _buildSignUpTextWidget => RichText(
         text: TextSpan(
           text: "ليس لديك حساب ",
-          style: TextStyle(color: R.tertiaryColor),
+          style: TextStyle(color: R.tertiaryColor, fontFamily: fontFamily),
           children: [
             TextSpan(
               text: "انضم لنا",
@@ -162,9 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushNamed(SelectAccountTypeScreen.routeName);
                   // Long Pressed.
                 },
-              style: TextStyle(
-                color: R.secondaryColor,
-              ),
+              style: TextStyle(color: R.secondaryColor, fontFamily: fontFamily),
             )
           ],
         ),

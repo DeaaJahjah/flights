@@ -1,11 +1,29 @@
 import 'package:flights/features/client/widgets/text.dart';
+import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // import '../../widgets/text.dart';
 import 'add_flight_tab.dart';
 
-class AddFlightScreen extends StatelessWidget {
+class AddFlightScreen extends StatefulWidget {
   const AddFlightScreen({super.key});
+
+  @override
+  State<AddFlightScreen> createState() => _AddFlightScreenState();
+}
+
+class _AddFlightScreenState extends State<AddFlightScreen> {
+  @override
+  void initState() {
+    Future.delayed(
+      Duration.zero,
+      () {
+        context.read<FlightsProvider>().getAllFlights();
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

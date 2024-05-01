@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flights/core/enums/enums.dart';
+import 'package:flights/core/utils/shred_prefs.dart';
 import 'package:flights/core/widgets/custom_snackbar.dart';
 import 'package:flights/features/auth/providers/auth_state_provider.dart';
 import 'package:flights/features/auth/screens/login_page.dart';
@@ -15,6 +16,14 @@ class FlutterFireAuthServices {
 
   Future<void> signOut(context) async {
     await _firebaseAuth.signOut();
+
+    SharedPrefs.prefs.clear();
+    // await streamSdk.StreamChatCore.of(context).client.disconnectUser();
+    Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
+  }
+
+  Future<void> updateEmail(context) async {
+    // await _firebaseAuth.sig();
     // await streamSdk.StreamChatCore.of(context).client.disconnectUser();
     Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
   }

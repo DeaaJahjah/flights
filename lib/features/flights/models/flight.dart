@@ -9,6 +9,7 @@ class Flight extends Equatable {
   String? id;
   final String userId;
   final String userName;
+  final String? logo;
   final String flightNo;
   final String airplaneNo;
   final String from;
@@ -19,26 +20,34 @@ class Flight extends Equatable {
   final int normalClassCost;
   final int numberOfVIPSeats;
   final int numberOfNormalSeats;
-  final int period;
-
+  final String period;
+  final String lunchTime;
+  final String arriveTime;
   final List<Seat> seats;
+  //for sorting the flights in the tickets
+  final int index;
 
-  Flight(
-      {this.id,
-      required this.userId,
-      required this.userName,
-      required this.flightNo,
-      required this.airplaneNo,
-      required this.from,
-      required this.to,
-      required this.lunchDate,
-      required this.arriveDate,
-      required this.businessClassCost,
-      required this.normalClassCost,
-      required this.numberOfNormalSeats,
-      required this.numberOfVIPSeats,
-      required this.seats,
-      required this.period});
+  Flight({
+    this.id,
+    required this.userId,
+    required this.userName,
+    required this.logo,
+    required this.flightNo,
+    required this.airplaneNo,
+    required this.from,
+    required this.to,
+    required this.lunchDate,
+    required this.arriveDate,
+    required this.businessClassCost,
+    required this.normalClassCost,
+    required this.numberOfNormalSeats,
+    required this.numberOfVIPSeats,
+    required this.seats,
+    required this.period,
+    required this.arriveTime,
+    required this.lunchTime,
+    this.index = 0,
+  });
 
   factory Flight.fromJson(Map<String, dynamic> json) => _$FlightFromJson(json);
   Map<String, dynamic> toJson() => _$FlightToJson(this);
@@ -47,6 +56,31 @@ class Flight extends Equatable {
     Flight flight = Flight.fromJson(documentSnapshot.data() as Map<String, dynamic>);
     flight.id = documentSnapshot.id;
     return flight;
+  }
+
+  bool hasAvailableSeats({required String flightClass, required int neadedSeats}) {
+    bool isVip = flightClass == 'Business' ? true : false;
+
+    int countAvailableSeats = 0;
+    for (var seat in seats) {
+      if (seat.available && seat.isVip == isVip) {
+        countAvailableSeats++;
+      }
+    }
+    return countAvailableSeats >= neadedSeats;
+  }
+
+  int countSeats(String flightClass) {
+    bool isVip = flightClass == 'Business' ? true : false;
+
+    int count = 0;
+
+    for (var seat in seats) {
+      if (seat.isVip == isVip) {
+        count += 1;
+      }
+    }
+    return count;
   }
 
   Flight copyWith({
@@ -64,24 +98,33 @@ class Flight extends Equatable {
     int? numberOfVIPSeats,
     int? numberOfNormalSeats,
     List<Seat>? seats,
-    int? period,
+    String? period,
+    String? lunchTime,
+    String? arriveTime,
+    int? index,
+    String? logo,
   }) {
     return Flight(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        userName: userName ?? this.userName,
-        flightNo: flightNo ?? this.flightNo,
-        airplaneNo: airplaneNo ?? this.airplaneNo,
-        from: from ?? this.from,
-        to: to ?? this.to,
-        lunchDate: lunchDate ?? this.lunchDate,
-        arriveDate: arriveDate ?? this.arriveDate,
-        businessClassCost: businessClassCost ?? this.businessClassCost,
-        normalClassCost: normalClassCost ?? this.normalClassCost,
-        numberOfNormalSeats: numberOfNormalSeats ?? this.numberOfNormalSeats,
-        numberOfVIPSeats: numberOfVIPSeats ?? this.numberOfVIPSeats,
-        seats: seats ?? this.seats,
-        period: period ?? this.period);
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
+      flightNo: flightNo ?? this.flightNo,
+      airplaneNo: airplaneNo ?? this.airplaneNo,
+      from: from ?? this.from,
+      to: to ?? this.to,
+      lunchDate: lunchDate ?? this.lunchDate,
+      arriveDate: arriveDate ?? this.arriveDate,
+      businessClassCost: businessClassCost ?? this.businessClassCost,
+      normalClassCost: normalClassCost ?? this.normalClassCost,
+      numberOfNormalSeats: numberOfNormalSeats ?? this.numberOfNormalSeats,
+      numberOfVIPSeats: numberOfVIPSeats ?? this.numberOfVIPSeats,
+      seats: seats ?? this.seats,
+      period: period ?? this.period,
+      arriveTime: arriveTime ?? this.arriveTime,
+      lunchTime: lunchTime ?? this.lunchTime,
+      index: index ?? this.index,
+      logo: logo ?? this.logo,
+    );
   }
 
   @override
@@ -96,6 +139,7 @@ class Flight extends Equatable {
         lunchDate,
         arriveDate,
         period,
+        index,
       ];
 }
 

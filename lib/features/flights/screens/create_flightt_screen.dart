@@ -30,7 +30,9 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
   final _fromController = TextEditingController();
   final _toController = TextEditingController();
   final _lunchDateController = TextEditingController();
+  final _lunchTimeController = TextEditingController();
   final _arriveDateController = TextEditingController();
+  final _arriveTimeController = TextEditingController();
   final _businessClassCostController = TextEditingController();
   final _normalClassCostController = TextEditingController();
   final _numberOfNormalSeatsController = TextEditingController();
@@ -39,6 +41,9 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
 
   final _formKey = GlobalKey<FormState>();
   DateTime? lunchDate;
+  TimeOfDay? lunchTime;
+  TimeOfDay? arriveTime;
+
   DateTime? arriveDate;
 
   // final _normalClassController = TextEditingController();
@@ -49,7 +54,11 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
     final flightProvider = context.read<FlightsProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('إضافة رحلة')),
+      appBar: AppBar(
+          title: const Text(
+        'إضافة رحلة',
+        style: TextStyle(fontFamily: fontFamily),
+      )),
       body: Center(
         child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.8,
@@ -94,69 +103,104 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
                     keyboardType: TextInputType.text,
                     validator: emptyValidator,
                   ),
-                  CustomTextField(
-                    labelText: 'تاريخ الانطلاق',
-                    prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
-                    mainColor: R.secondaryColor,
-                    secondaryColor: R.tertiaryColor,
-                    controller: _lunchDateController,
-                    keyboardType: TextInputType.text,
-                    readOnly: true,
-                    validator: emptyValidator,
-                    onTap: () async {
-                      lunchDate = await showRoundedDatePicker(
-                        context: context,
-                        lastDate: DateTime(2026),
-                        initialDate: DateTime.now(),
-                        theme: ThemeData(primarySwatch: Colors.amber),
-                        // firstDate: DateTime(2000),
-                      );
-                      _lunchDateController.text =
-                          ('${lunchDate!.year}-${lunchDate!.month}-${lunchDate!.day}').toString();
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          labelText: 'تاريخ الانطلاق',
+                          prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
+                          mainColor: R.secondaryColor,
+                          secondaryColor: R.tertiaryColor,
+                          controller: _lunchDateController,
+                          keyboardType: TextInputType.text,
+                          readOnly: true,
+                          validator: emptyValidator,
+                          onTap: () async {
+                            lunchDate = await showRoundedDatePicker(
+                              context: context,
+                              lastDate: DateTime(2026),
+                              initialDate: DateTime.now(),
+                              theme: ThemeData(primarySwatch: Colors.amber),
+                              // firstDate: DateTime(2000),
+                            );
+                            _lunchDateController.text =
+                                ('${lunchDate!.year}-${lunchDate!.month}-${lunchDate!.day}').toString();
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          labelText: 'وقت الانطلاق',
+                          prefixIcon: Icon(Icons.timelapse_outlined, color: R.secondaryColor),
+                          mainColor: R.secondaryColor,
+                          secondaryColor: R.tertiaryColor,
+                          controller: _lunchTimeController,
+                          keyboardType: TextInputType.text,
+                          validator: emptyValidator,
+                          readOnly: true,
+                          onTap: () async {
+                            lunchTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+
+                            if (lunchTime == null) {
+                              _lunchTimeController.text = '';
+                            } else {
+                              _lunchTimeController.text =
+                                  '${lunchTime!.hour}:${lunchTime!.minute} ${lunchTime!.period.name}';
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     children: [
-                      CustomTextField(
-                        labelText: 'تاريخ الوصول',
-                        prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
-                        mainColor: R.secondaryColor,
-                        secondaryColor: R.tertiaryColor,
-                        controller: _arriveDateController,
-                        keyboardType: TextInputType.text,
-                        validator: emptyValidator,
-                        readOnly: true,
-                        onTap: () async {
-                          arriveDate = await showRoundedDatePicker(
-                            context: context,
-                            lastDate: DateTime(2026),
-                            initialDate: DateTime.now(),
-                            theme: ThemeData(primarySwatch: Colors.amber),
-                            // firstDate: DateTime(2000),
-                          );
-                          _arriveDateController.text =
-                              ('${arriveDate!.year}-${arriveDate!.month}-${arriveDate!.day}').toString();
-                        },
+                      Expanded(
+                        child: CustomTextField(
+                          labelText: 'تاريخ الوصول',
+                          prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
+                          mainColor: R.secondaryColor,
+                          secondaryColor: R.tertiaryColor,
+                          controller: _arriveDateController,
+                          keyboardType: TextInputType.text,
+                          validator: emptyValidator,
+                          readOnly: true,
+                          onTap: () async {
+                            arriveDate = await showRoundedDatePicker(
+                              context: context,
+                              lastDate: DateTime(2026),
+                              initialDate: DateTime.now(),
+                              theme: ThemeData(primarySwatch: Colors.amber),
+                              // firstDate: DateTime(2000),
+                            );
+                            if (arriveDate != null) {
+                              _arriveDateController.text =
+                                  ('${arriveDate!.year}-${arriveDate!.month}-${arriveDate!.day}').toString();
+                            } else {
+                              _arriveDateController.text = '';
+                            }
+                          },
+                        ),
                       ),
-                      CustomTextField(
-                        labelText: 'وقت الوصول',
-                        prefixIcon: Icon(Icons.date_range, color: R.secondaryColor),
-                        mainColor: R.secondaryColor,
-                        secondaryColor: R.tertiaryColor,
-                        controller: _arriveDateController,
-                        keyboardType: TextInputType.text,
-                        validator: emptyValidator,
-                        readOnly: true,
-                        onTap: () async {
-                          // DatePicker.showDatePicker(context,
-                          //     showTitleActions: true,
-                          //     minTime: DateTime(2018, 3, 5),
-                          //     maxTime: DateTime(2025, 12, 30), onChanged: (date) {
-                          //   print('change $date');
-                          // }, onConfirm: (date) {
-                          //   print('confirm $date');
-                          // }, currentTime: DateTime.now(), locale: LocaleType.zh);
-                        },
+                      Expanded(
+                        child: CustomTextField(
+                          labelText: 'وقت الوصول',
+                          prefixIcon: Icon(Icons.timelapse_outlined, color: R.secondaryColor),
+                          mainColor: R.secondaryColor,
+                          secondaryColor: R.tertiaryColor,
+                          controller: _arriveTimeController,
+                          keyboardType: TextInputType.text,
+                          validator: emptyValidator,
+                          readOnly: true,
+                          onTap: () async {
+                            arriveTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                            if (arriveTime == null) {
+                              _arriveTimeController.text = '';
+                            } else {
+                              _arriveTimeController.text =
+                                  '${arriveTime!.hour}:${arriveTime!.minute} ${arriveTime!.period.name}';
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -166,9 +210,9 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
                     mainColor: R.secondaryColor,
                     secondaryColor: R.tertiaryColor,
                     controller: _periodController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     validator: emptyValidator,
-                    digitsOnly: true,
+                    // digitsOnly: true,
                   ),
                   CustomTextField(
                     labelText: 'عدد مقاعد vip',
@@ -219,40 +263,45 @@ class _CreateFlightScreenState extends State<CreateFlightScreen> {
                                 final Flight flight = Flight(
                                   userId: context.userUid!,
                                   userName: SharedPrefs.prefs.getString('name')!,
+                                  logo: SharedPrefs.prefs.getString('image'),
                                   flightNo: _flightNoController.text,
                                   airplaneNo: _airplaneNoController.text,
                                   from: _fromController.text,
                                   to: _toController.text,
                                   lunchDate: lunchDate!,
+                                  lunchTime: _lunchTimeController.text,
+                                  arriveTime: _arriveTimeController.text,
                                   arriveDate: arriveDate!,
                                   businessClassCost: int.parse(_businessClassCostController.text),
                                   normalClassCost: int.parse(_normalClassCostController.text),
                                   numberOfNormalSeats: int.parse(_numberOfNormalSeatsController.text),
                                   numberOfVIPSeats: int.parse(_numberOfVIPSeatsController.text),
-                                  period: int.parse(_periodController.text),
-                                  seats: List.generate(
-                                          int.parse(_normalClassCostController.text),
+                                  period: _periodController.text,
+                                  seats: [
+                                    ...List.generate(
+                                        int.parse(_numberOfNormalSeatsController.text),
+                                        (index) => Seat(
+                                            id: const Uuid().v4(),
+                                            isVip: true,
+                                            available: true,
+                                            name: 'NS-${index + 1}'))
+                                      ..addAll(List.generate(
+                                          int.parse(_numberOfVIPSeatsController.text),
                                           (index) => Seat(
                                               id: const Uuid().v4(),
                                               isVip: false,
                                               available: true,
-                                              name: 'NS-${index + 1}')) +
-                                      List.generate(
-                                          int.parse(_businessClassCostController.text),
-                                          (index) => Seat(
-                                              id: const Uuid().v4(),
-                                              isVip: true,
-                                              available: true,
-                                              name: 'VS-${index + 1}')),
+                                              name: 'VS-${index + 1}')))
+                                  ],
                                 );
-                                print(flight);
+
                                 await flightProvider.addFlight(flight: flight);
 
                                 if (flightProvider.dataState == DataState.failure) {
                                   showErrorSnackBar(context, 'حدث خطأ عند اضافة رحلة');
                                   return;
                                 }
-                                flightProvider.getAllFlight();
+                                flightProvider.getCompanyFlights();
                                 Navigator.pop(context);
                               },
                               text: 'موافق')

@@ -1,3 +1,4 @@
+import 'package:flights/core/utils/validators.dart';
 import 'package:flutter/material.dart';
 
 class Field extends StatelessWidget {
@@ -22,6 +23,7 @@ class Field extends StatelessWidget {
       child: TextFormField(
         onTap: onTap,
         readOnly: readOnly,
+        validator: emptyValidator,
         style: TextStyle(
           color: Theme.of(context).canvasColor,
           fontSize: 17,

@@ -10,6 +10,7 @@ Flight _$FlightFromJson(Map<String, dynamic> json) => Flight(
       id: json['id'] as String?,
       userId: json['userId'] as String,
       userName: json['userName'] as String,
+      logo: json['logo'] as String?,
       flightNo: json['flightNo'] as String,
       airplaneNo: json['airplaneNo'] as String,
       from: json['from'] as String,
@@ -23,13 +24,17 @@ Flight _$FlightFromJson(Map<String, dynamic> json) => Flight(
       seats: (json['seats'] as List<dynamic>)
           .map((e) => Seat.fromJson(e as Map<String, dynamic>))
           .toList(),
-      period: json['period'] as int,
+      period: json['period'] as String,
+      arriveTime: json['arriveTime'] as String,
+      lunchTime: json['lunchTime'] as String,
+      index: json['index'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$FlightToJson(Flight instance) => <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
       'userName': instance.userName,
+      'logo': instance.logo,
       'flightNo': instance.flightNo,
       'airplaneNo': instance.airplaneNo,
       'from': instance.from,
@@ -41,7 +46,10 @@ Map<String, dynamic> _$FlightToJson(Flight instance) => <String, dynamic>{
       'numberOfVIPSeats': instance.numberOfVIPSeats,
       'numberOfNormalSeats': instance.numberOfNormalSeats,
       'period': instance.period,
+      'lunchTime': instance.lunchTime,
+      'arriveTime': instance.arriveTime,
       'seats': instance.seats.map((e) => e.toJson()).toList(),
+      'index': instance.index,
     };
 
 Seat _$SeatFromJson(Map<String, dynamic> json) => Seat(

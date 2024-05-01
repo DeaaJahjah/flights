@@ -9,6 +9,8 @@ part 'client.g.dart';
 class Client extends Equatable {
   String id;
   final String name;
+  final String email;
+
   final String phone;
   final UserType userType;
   final DateTime birthday;
@@ -20,6 +22,7 @@ class Client extends Equatable {
       required this.phone,
       required this.userType,
       required this.birthday,
+      required this.email,
       required this.imageUrl});
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);

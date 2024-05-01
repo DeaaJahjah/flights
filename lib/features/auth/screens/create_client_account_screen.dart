@@ -13,7 +13,7 @@ import 'package:flights/features/auth/models/client.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
 import 'package:flights/features/auth/services/file_services.dart';
 import 'package:flights/features/auth/services/user_db_services.dart';
-import 'package:flights/features/client/screens/client_home_screen.dart';
+import 'package:flights/features/splash_screen/splash_screen.dart';
 import 'package:flights/utils/r.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
@@ -199,6 +199,7 @@ class _CreateClientAccountScreenState extends State<CreateClientAccountScreen> {
                                 name: _fullNameController.text,
                                 phone: _phoneController.text,
                                 birthday: birthday!,
+                                email: _emailController.text,
                                 userType: UserType.client,
                                 imageUrl: imageUrl);
                             if (mounted) {
@@ -218,8 +219,7 @@ class _CreateClientAccountScreenState extends State<CreateClientAccountScreen> {
                                 setState(() {
                                   isLoading = false;
                                 });
-                                Navigator.of(context)
-                                    .pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(SplashScreen.routeName, (route) => false);
                               }
                             }
                           },

@@ -12,12 +12,14 @@ Client _$ClientFromJson(Map<String, dynamic> json) => Client(
       phone: json['phone'] as String,
       userType: $enumDecode(_$UserTypeEnumMap, json['userType']),
       birthday: DateTime.parse(json['birthday'] as String),
+      email: json['email'] as String,
       imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$ClientToJson(Client instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'email': instance.email,
       'phone': instance.phone,
       'userType': _$UserTypeEnumMap[instance.userType]!,
       'birthday': instance.birthday.toIso8601String(),

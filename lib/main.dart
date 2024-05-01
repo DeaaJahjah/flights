@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flights/core/routes/routes.dart';
 import 'package:flights/core/utils/shred_prefs.dart';
 import 'package:flights/features/auth/providers/auth_state_provider.dart';
+import 'package:flights/features/client/providers/ticket_provider.dart';
 import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flights/features/splash_screen/splash_screen.dart';
 import 'package:flights/firebase_options.dart';
@@ -35,10 +36,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<FlightsProvider>(
           create: (_) => FlightsProvider(),
         ),
+        ChangeNotifierProvider<TicketProvider>(
+          create: (_) => TicketProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flight Booking UI Concept',
+        title: 'موقع حجز طيران',
         locale: const Locale('ar'),
         supportedLocales: const [
           Locale("ar", "AE"),
@@ -59,7 +63,7 @@ class MyApp extends StatelessWidget {
 
 ThemeData myLightThemeData = ThemeData(
   fontFamily: 'Cario',
-  
+
   useMaterial3: true,
   // primaryColor: R.primaryColor,
   primaryColorLight: R.primaryColor,

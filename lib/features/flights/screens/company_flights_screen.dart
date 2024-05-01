@@ -1,5 +1,8 @@
 import 'package:flights/core/enums/enums.dart';
+import 'package:flights/core/extensions/firebase.dart';
+import 'package:flights/core/utils/shred_prefs.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
+import 'package:flights/features/auth/screens/company_profile_screen.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
 import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flights/features/flights/screens/create_flightt_screen.dart';
@@ -22,7 +25,7 @@ class _CompanyFlightScreenState extends State<CompanyFlightScreen> {
     Future.delayed(
       Duration.zero,
       () {
-        context.read<FlightsProvider>().getAllFlight();
+        context.read<FlightsProvider>().getCompanyFlights();
       },
     );
     super.initState();
@@ -31,24 +34,57 @@ class _CompanyFlightScreenState extends State<CompanyFlightScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('الرحلات'), actions: [
-        IconButton(
+      appBar: AppBar(
+        title: const Text('الرحلات', style: TextStyle(fontFamily: fontFamily)),
+        leading: IconButton(
             onPressed: () {
               FlutterFireAuthServices().signOut(context);
             },
-            icon: const Icon(Icons.exit_to_app_outlined))
-      ]),
+            icon: const Icon(Icons.logout_rounded)),
+        actions: [
+          InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(CompanyProfileScreen.routeName, arguments: context.userUid);
+              },
+              child: SharedPrefs.prefs.getString('image') == ''
+                  ? Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: const DecorationImage(
+                            image: AssetImage("assets/profile.png"),
+                          )),
+                    )
+                  : Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(SharedPrefs.prefs.getString('image')!),
+                          )),
+                    )),
+          const SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
       body: Consumer<FlightsProvider>(
         builder: (context, provider, child) {
           return Stack(
             children: [
               if (provider.dataState == DataState.loading)
-                const Center(
-                  child: CustomProgress(),
+                const Scaffold(
+                  body: Center(
+                    child: CustomProgress(),
+                  ),
                 ),
               if (provider.dataState == DataState.failure)
-                const Center(
-                  child: Text('حدث خطأ ما الرجاء المحاولة لاحقاً'),
+                const Scaffold(
+                  body: Center(
+                    child: Text('حدث خطأ ما الرجاء المحاولة لاحقاً'),
+                  ),
                 )
               else
                 ListView.builder(

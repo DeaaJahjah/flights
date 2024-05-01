@@ -13,7 +13,7 @@ import 'package:flights/features/auth/models/company.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
 import 'package:flights/features/auth/services/file_services.dart';
 import 'package:flights/features/auth/services/user_db_services.dart';
-import 'package:flights/features/flights/screens/company_flights_screen.dart';
+import 'package:flights/features/splash_screen/splash_screen.dart';
 import 'package:flights/utils/r.dart';
 import 'package:flutter/material.dart';
 
@@ -211,8 +211,7 @@ class _CreateCompanyAccountScreenState extends State<CreateCompanyAccountScreen>
                                 setState(() {
                                   isLoading = false;
                                 });
-                                Navigator.of(context)
-                                    .pushNamedAndRemoveUntil(CompanyFlightScreen.routeName, (route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(SplashScreen.routeName, (route) => false);
                               }
                             }
                           },

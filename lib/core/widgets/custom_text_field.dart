@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final void Function()? onTap;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   final bool readOnly;
   final bool digitsOnly;
   const CustomTextField({
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.isTextObscure = false,
     this.digitsOnly = false,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       onTap: onTap,
       readOnly: readOnly,
+      onChanged: onChanged,
       // id(digitsOnly)
       validator: validator,
       inputFormatters: !digitsOnly ? null : [FilteringTextInputFormatter.digitsOnly],

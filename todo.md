@@ -1,4 +1,5 @@
 
 
-1- change initial date in date dialog
-2- add time picker.
+1- when the company sespond we should update all the ticket that lunch date is before now.
+
+2- 

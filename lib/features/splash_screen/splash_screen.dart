@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 3), () async {
       if (context.logedInUser != null) {
-        UserDbServices().getUserInfo();
+        await UserDbServices().getUserInfo();
         if (context.userType == 'client') {
           Navigator.of(context).pushReplacementNamed(ClientHomeScreen.routeName);
           print('clienttttttttt');
