@@ -25,6 +25,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 14),
+        const Text(
+          'المسوح 30 كيلو غرام و 10 كيلو غرام حقيبة ظهر',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+        ),
+        const SizedBox(height: 14),
+        
         Consumer<TicketProvider>(builder: (context, provider, child) {
           print(provider.flightClass);
           return Expanded(

@@ -48,4 +48,27 @@ class TicketsDbService {
     }
     return 'success';
   }
+
+  Future<String> canselTicket({required Ticket ticket}) async {
+    try {
+      await _db.collection('tickets').doc(ticket.id).delete();
+
+      //TODO: get flights to update seates
+
+      for (var flight in ticket.flights) {
+        final json = await _db.collection('flights').doc(flight.id).get();
+        final ff = Flight.fromFirestore(json);
+
+        for (var seat in flight.seats) {
+          final index = ff.seats.indexWhere((element) => element.id == seat.id);
+
+          ff.seats[index] = ff.seats[index].copyWith(available: true);
+        }
+        await _db.collection('flights').doc(ff.id).update(ff.toJson());
+      }
+    } catch (e) {
+      return 'error';
+    }
+    return 'success';
+  }
 }

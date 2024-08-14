@@ -1,4 +1,7 @@
+import 'package:flights/core/widgets/custom_snackbar.dart';
+import 'package:flights/features/client/models/ticket.dart';
 import 'package:flights/features/client/providers/ticket_provider.dart';
+import 'package:flights/features/client/services/ticket_db_service.dart';
 import 'package:flights/features/client/widgets/show_up_animation.dart';
 import 'package:flights/features/client/widgets/text.dart';
 import 'package:flights/features/flights/models/flight.dart';
@@ -6,10 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TicketCard extends StatefulWidget {
-  const TicketCard({super.key, required this.flight, required this.seatsNumber, required this.flightClass});
+  const TicketCard(
+      {super.key, this.ticket, required this.flight, required this.seatsNumber, required this.flightClass});
   final Flight flight;
   final int seatsNumber;
   final String flightClass;
+  final Ticket? ticket;
 
   @override
   State<TicketCard> createState() => _TicketCardState();
@@ -277,6 +282,20 @@ class _TicketCardState extends State<TicketCard> {
                     ))
               ],
             ),
+            if (widget.ticket != null)
+              Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.red)),
+                      onPressed: () async {
+                        await showConfirmDialog(context, widget.ticket!);
+                      },
+                      child: const Text(
+                        'الغاء الرحلة',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )))
           ],
         ),
       ),
@@ -292,4 +311,40 @@ class _TicketCardState extends State<TicketCard> {
       });
     });
   }
+}
+
+Future<void> showConfirmDialog(BuildContext context, Ticket ticket) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('تأكيد إلغاء الحجز'),
+        content: const Text('هل أنت متأكد من إلغاء الحجز؟\nسوف يتم إعادة ثمن التذكرة إلى حسابك.'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('إلغاء'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+          TextButton(
+            child: const Text('تأكيد'),
+            onPressed: () async {
+              final result = await TicketsDbService().canselTicket(ticket: ticket);
+
+              if (result == 'error') {
+                showErrorSnackBar(context, 'حدث خطأ الرجاء المحاولة لاحقا');
+                return;
+              }
+              showSuccessSnackBar(context, 'تم الغاء الحجز بنجاح');
+
+              await context.read<TicketProvider>().getMyTicket();
+              // Handle the confirmation action
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

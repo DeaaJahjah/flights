@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,7 +28,7 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>flights</title>
   <link rel="manifest" href="manifest.json">
@@ -39,6 +40,7 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
+
 <body>
   <script type="module">
     // Import the functions you need from the SDKs you need
@@ -52,29 +54,29 @@
     // https://firebase.google.com/docs/web/setup#available-libraries
 
     // Your web app's Firebase configuration
+
     const firebaseConfig = {
-
-      apiKey: "AIzaSyCCoyNI0yBYHbL8I6n2oMLj5PwLxxBD7SI",
-      authDomain: "flights-f05f8.firebaseapp.com",
-      projectId: "flights-f05f8",
-      storageBucket: "flights-f05f8.appspot.com",
-      messagingSenderId: "349132973604",
-      appId: "1:349132973604:web:007d6e6925290a6d459ab1"
+      apiKey: "AIzaSyAJ12pA6JVPz5eMpzSNrGcUoBa32YC0h1M",
+      authDomain: "investment-com.firebaseapp.com",
+      projectId: "investment-com",
+      storageBucket: "investment-com.appspot.com",
+      messagingSenderId: "501968156518",
+      appId: "1:501968156518:web:6c055160b8fea87b0abaa7",
+      measurementId: "G-ZBTE1PN72T"
     };
-
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
   </script>
-   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
@@ -82,4 +84,5 @@
     });
   </script>
 </body>
+
 </html>

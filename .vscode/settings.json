@@ -1,0 +1,26 @@
+{
+    "dart.flutterSdkPath": "D:\\flutter old version\\flutter",
+    "editor.foldingImportsByDefault": false,
+    "editor.minimap.maxColumn": 120,
+    "editor.wordWrapColumn": 120,
+    "editor.columnSelection": false,
+    "editor.scrollBeyondLastColumn": 4,
+    "material-icon-theme.hidesExplorerArrows": true,
+    "dartImport.fixOnSave": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            120
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off",
+        // "editor.codeActionsOnSave": {
+        //     "source.fixAll": "explicit",
+        //     "source.organizeImports": "explicit",
+        // "source.sortMembers": "explicit"
+        // }
+    }
+}

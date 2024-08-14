@@ -149,10 +149,16 @@ Widget ticketCardWicget(Ticket ticket) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TicketCard(
-            flight: ticket.flights[0], seatsNumber: ticket.flights[0].seats.length, flightClass: ticket.flightClass),
+            flight: ticket.flights[0],
+            seatsNumber: ticket.flights[0].seats.length,
+            flightClass: ticket.flightClass,
+            ticket: ticket),
         if (ticket.flights.length > 1)
           TicketCard(
-              flight: ticket.flights[1], seatsNumber: ticket.flights[1].seats.length, flightClass: ticket.flightClass),
+              flight: ticket.flights[1],
+              seatsNumber: ticket.flights[1].seats.length,
+              flightClass: ticket.flightClass,
+              ticket: ticket),
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom: 5),
           child: Text(
