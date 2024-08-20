@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flights/features/client/models/ticket.dart';
+import 'package:flights/features/client/providers/ticket_provider.dart';
 import 'package:flights/features/flights/models/flight.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TicketsDbService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -49,7 +52,7 @@ class TicketsDbService {
     return 'success';
   }
 
-  Future<String> canselTicket({required Ticket ticket}) async {
+  Future<String> canselTicket({required Ticket ticket, required BuildContext context}) async {
     try {
       await _db.collection('tickets').doc(ticket.id).delete();
 
@@ -69,6 +72,8 @@ class TicketsDbService {
     } catch (e) {
       return 'error';
     }
+    await context.read<TicketProvider>().getMyTicket();
+
     return 'success';
   }
 }

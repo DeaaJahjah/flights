@@ -1,9 +1,7 @@
-import 'package:flights/core/enums/enums.dart';
 import 'package:flights/core/extensions/firebase.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
 import 'package:flights/core/widgets/custom_snackbar.dart';
 import 'package:flights/core/widgets/custom_text_field.dart';
-import 'package:flights/features/auth/providers/auth_state_provider.dart';
 import 'package:flights/features/auth/screens/selecte_account_type_screen.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
 import 'package:flights/features/auth/services/user_db_services.dart';
@@ -12,7 +10,6 @@ import 'package:flights/features/flights/screens/company_flights_screen.dart';
 import 'package:flights/utils/r.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -26,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     // _fillFields();
@@ -74,7 +72,53 @@ class _LoginPageState extends State<LoginPage> {
                     isTextObscure: true,
                   ),
                   hSpace,
-                  _buildLoginButton(context),
+                  !isLoading
+                      ? FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: R.secondaryColor,
+                            minimumSize: const Size(
+                              double.infinity,
+                              50,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            if (_emailController.text.isEmpty ||
+                                !_emailController.text.contains('@') ||
+                                _passwordController.text.isEmpty) {
+                              showErrorSnackBar(context, 'الرجاء التأكد من صحة البيانات المدخلة');
+                              return;
+                            }
+                            setState(() {
+                              isLoading = true;
+                            });
+                            var result = await FlutterFireAuthServices().signIn(
+                                email: _emailController.text, password: _passwordController.text, context: context);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (result != null) {
+                              // _fadeInOutWidgetController.hide();
+                              await UserDbServices().getUserInfo();
+
+                              if (context.userType == 'client') {
+                                Navigator.of(context)
+                                    .pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
+                              } else {
+                                Navigator.of(context)
+                                    .pushNamedAndRemoveUntil(CompanyFlightScreen.routeName, (route) => false);
+                              }
+                            }
+                          },
+                          child: Text(
+                            "تسجيل دخول",
+                            style: TextStyle(color: R.primaryColor, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : const CustomProgress(),
                   hSpace,
                   _buildSignUpTextWidget
                 ],
@@ -84,51 +128,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ],
     );
-  }
-
-  Widget _buildLoginButton(BuildContext context) {
-    return Consumer<AuthSataProvider>(builder: (context, provider, child) {
-      return provider.authState == AuthState.notSet
-          ? FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: R.secondaryColor,
-                minimumSize: const Size(
-                  double.infinity,
-                  50,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-              onPressed: () async {
-                if (_emailController.text.isEmpty ||
-                    !_emailController.text.contains('@') ||
-                    _passwordController.text.isEmpty) {
-                  showErrorSnackBar(context, 'الرجاء التأكد من صحة البيانات المدخلة');
-                  return;
-                }
-
-                var result = await FlutterFireAuthServices()
-                    .signIn(email: _emailController.text, password: _passwordController.text, context: context);
-
-                if (result != null) {
-                  // _fadeInOutWidgetController.hide();
-                  await UserDbServices().getUserInfo();
-
-                  if (context.userType == 'client') {
-                    Navigator.of(context).pushNamedAndRemoveUntil(ClientHomeScreen.routeName, (route) => false);
-                  } else {
-                    Navigator.of(context).pushNamedAndRemoveUntil(CompanyFlightScreen.routeName, (route) => false);
-                  }
-                }
-              },
-              child: Text(
-                "تسجيل دخول",
-                style: TextStyle(color: R.primaryColor, fontWeight: FontWeight.bold),
-              ),
-            )
-          : const CustomProgress();
-    });
   }
 
   Widget get _buildSignUpTextWidget => RichText(

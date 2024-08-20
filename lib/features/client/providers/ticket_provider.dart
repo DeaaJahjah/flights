@@ -19,6 +19,11 @@ class TicketProvider extends ChangeNotifier {
   DateTime? returnDate;
   late int travelerNumber;
 
+  void deleteTicket(Ticket? ticket) {
+    tickets.remove(ticket);
+    notifyListeners();
+  }
+
   void selecteFlight(Flight flight) {
     if (selectedFlights.contains(flight)) {
       selectedFlights.remove(flight);
@@ -78,6 +83,9 @@ class TicketProvider extends ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    print('GET MY Tickets');
+    print('tickets $tickets');
     tickets = data;
     dataState = DataState.done;
     notifyListeners();

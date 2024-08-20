@@ -282,20 +282,7 @@ class _TicketCardState extends State<TicketCard> {
                     ))
               ],
             ),
-            if (widget.ticket != null)
-              Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                      style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((states) => Colors.red)),
-                      onPressed: () async {
-                        await showConfirmDialog(context, widget.ticket!);
-                      },
-                      child: const Text(
-                        'الغاء الرحلة',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      )))
+            
           ],
         ),
       ),
@@ -314,7 +301,7 @@ class _TicketCardState extends State<TicketCard> {
 }
 
 Future<void> showConfirmDialog(BuildContext context, Ticket ticket) async {
-  await showDialog(
+  return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
@@ -330,7 +317,7 @@ Future<void> showConfirmDialog(BuildContext context, Ticket ticket) async {
           TextButton(
             child: const Text('تأكيد'),
             onPressed: () async {
-              final result = await TicketsDbService().canselTicket(ticket: ticket);
+              final result = await TicketsDbService().canselTicket(ticket: ticket, context: context);
 
               if (result == 'error') {
                 showErrorSnackBar(context, 'حدث خطأ الرجاء المحاولة لاحقا');
@@ -338,7 +325,6 @@ Future<void> showConfirmDialog(BuildContext context, Ticket ticket) async {
               }
               showSuccessSnackBar(context, 'تم الغاء الحجز بنجاح');
 
-              await context.read<TicketProvider>().getMyTicket();
               // Handle the confirmation action
               Navigator.of(context).pop();
             },

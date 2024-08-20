@@ -4,6 +4,7 @@ import 'package:flights/core/utils/shred_prefs.dart';
 import 'package:flights/core/widgets/custom_progress.dart';
 import 'package:flights/features/auth/screens/company_profile_screen.dart';
 import 'package:flights/features/auth/services/authentecation_service.dart';
+import 'package:flights/features/client/providers/ticket_provider.dart';
 import 'package:flights/features/flights/providers/fllights_providers.dart';
 import 'package:flights/features/flights/screens/create_flightt_screen.dart';
 import 'package:flights/features/flights/screens/flight_card.dart';
@@ -38,7 +39,11 @@ class _CompanyFlightScreenState extends State<CompanyFlightScreen> {
         title: const Text('الرحلات', style: TextStyle(fontFamily: fontFamily)),
         leading: IconButton(
             onPressed: () {
+              context.read<TicketProvider>().tickets = [];
+              context.read<FlightsProvider>().flightList = [];
               FlutterFireAuthServices().signOut(context);
+              // context.read<FlightsProvider>(). = [];
+
             },
             icon: const Icon(Icons.logout_rounded)),
         actions: [
